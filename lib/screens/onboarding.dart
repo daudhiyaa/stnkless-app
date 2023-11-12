@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:stnkless/components/button/button.dart';
+import 'package:stnkless/components/stnkless_logo.dart';
+import 'package:stnkless/screens/auth/login.dart';
+
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double maxWidth = MediaQuery.of(context).size.width;
     double maxHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -19,25 +22,9 @@ class OnboardingScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: const [
-                      Text(
-                        'STNKLess.',
-                        style: TextStyle(
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'By ITS Campus',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                  const STNKLessLogo(
+                    stnkLessSize: 35,
+                    byITSCampusSize: 14,
                   ),
                   SizedBox(
                     height: maxHeight * 0.07,
@@ -68,37 +55,16 @@ class OnboardingScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return Colors.amber.shade400;
-                      }
-                      return Colors.amber;
-                    },
+            CustomButton(
+              title: 'Lanjutkan',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
                   ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(vertical: 12.0),
-                  ),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                  ),
-                ),
-                child: const Text(
-                  'Lanjutkan',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15.0,
-                    color: Color(0xFF362FD9),
-                  ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
