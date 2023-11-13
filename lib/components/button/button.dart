@@ -1,14 +1,15 @@
-
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final void Function() onPressed;
   final String title;
+  final double elevation;
 
   const CustomButton({
     super.key,
     required this.onPressed,
     required this.title,
+    this.elevation = 0,
   });
 
   @override
@@ -18,7 +19,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(0.0),
+          elevation: MaterialStateProperty.all<double>(elevation),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (states) {
               if (states.contains(MaterialState.pressed)) {

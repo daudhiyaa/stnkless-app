@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/stnkless_logo.dart';
+import 'package:stnkless/constants/constants.dart';
 import 'package:stnkless/screens/auth/login.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class OnboardingScreen extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 35),
+        padding: const EdgeInsets.symmetric(horizontal: paddingAllPages),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

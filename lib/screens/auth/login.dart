@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/button/login_with_google.dart';
 import 'package:stnkless/components/stnkless_logo.dart';
-import 'package:stnkless/components/textfiled.dart';
+import 'package:stnkless/components/textfield.dart';
 import 'package:stnkless/constants/color.dart';
+import 'package:stnkless/constants/constants.dart';
 import 'package:stnkless/screens/auth/register.dart';
 import 'package:stnkless/screens/base.dart';
 
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 35),
+          padding: const EdgeInsets.symmetric(horizontal: paddingAllPages),
           children: [
             SizedBox(height: maxHeight * 0.05),
             SizedBox(
@@ -99,12 +100,12 @@ class _LoginPageState extends State<LoginPage> {
             CustomButton(
               title: 'Masuk',
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const BaseScreen(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BaseScreen(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 10.0),

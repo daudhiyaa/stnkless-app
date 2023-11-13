@@ -33,6 +33,11 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        primaryTextTheme: const TextTheme(
+          titleLarge: TextStyle(fontFamily: 'Poppins'),
+          titleMedium: TextStyle(fontFamily: 'Poppins'),
+          titleSmall: TextStyle(fontFamily: 'Poppins'),
+        ),
       ),
       home: const OnboardingScreen(),
     );
