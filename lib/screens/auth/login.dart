@@ -6,8 +6,8 @@ import 'package:stnkless/components/stnkless_logo.dart';
 import 'package:stnkless/components/textfield.dart';
 import 'package:stnkless/constants/color.dart';
 import 'package:stnkless/constants/constants.dart';
+import 'package:stnkless/models/login_func.dart';
 import 'package:stnkless/screens/auth/register.dart';
-import 'package:stnkless/screens/base.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -100,12 +100,7 @@ class _LoginPageState extends State<LoginPage> {
             CustomButton(
               title: 'Masuk',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const BaseScreen(),
-                  ),
-                );
+                login(context, mounted, _email.text, _password.text);
               },
             ),
             const SizedBox(height: 10.0),

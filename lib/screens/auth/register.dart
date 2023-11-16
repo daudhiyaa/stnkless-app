@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/button/login_with_google.dart';
+import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/components/stnkless_logo.dart';
 import 'package:stnkless/components/textfield.dart';
 import 'package:stnkless/constants/color.dart';
 import 'package:stnkless/constants/constants.dart';
+import 'package:stnkless/models/register_func.dart';
 import 'package:stnkless/screens/auth/login.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -111,12 +113,22 @@ class _RegisterPageState extends State<RegisterPage> {
             CustomButton(
               title: 'Daftar',
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const LoginPage(),
-                //   ),
-                // );
+                if (_usn.text.isEmpty ||
+                    _email.text.isEmpty ||
+                    _password.text.isEmpty ||
+                    _confirmpassword.text.isEmpty) {
+                  final snackBar = customSnackBar('Mohon isi semua field');
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                } else {
+                  signUp(
+                    context,
+                    mounted,
+                    _usn.text,
+                    _email.text,
+                    _password.text,
+                    _confirmpassword.text,
+                  );
+                }
               },
             ),
             const SizedBox(height: 16.0),
