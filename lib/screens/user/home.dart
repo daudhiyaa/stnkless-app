@@ -134,17 +134,19 @@ class _HomePageState extends State<HomePage> {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
-                      itemCount: filteredCardData.length,
+                      itemCount: filteredCardData.length + 1,
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            // handle ontap
-                          },
-                          child: HomeScreenCard(
-                            filteredCardData: filteredCardData,
-                            index: index,
-                          ),
-                        );
+                        return index < filteredCardData.length
+                            ? GestureDetector(
+                                onTap: () {
+                                  // handle ontap
+                                },
+                                child: HomeScreenCard(
+                                  filteredCardData: filteredCardData,
+                                  index: index,
+                                ),
+                              )
+                            : SizedBox(height: maxHeight * 0.08);
                       },
                     ),
                   ),

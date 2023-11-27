@@ -4,12 +4,16 @@ class CustomButton extends StatelessWidget {
   final void Function() onPressed;
   final String title;
   final double elevation;
+  final Color buttonColor;
+  final Color textColor;
 
   const CustomButton({
     super.key,
     required this.onPressed,
     required this.title,
     this.elevation = 0,
+    this.buttonColor = Colors.amber,
+    this.textColor = const Color(0xFF362FD9),
   });
 
   @override
@@ -23,9 +27,9 @@ class CustomButton extends StatelessWidget {
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.amber.shade400;
+                return buttonColor.withAlpha(100);
               }
-              return Colors.amber;
+              return buttonColor;
             },
           ),
           padding: MaterialStateProperty.all<EdgeInsets>(
@@ -39,10 +43,10 @@ class CustomButton extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 15,
-            color: Color(0xFF362FD9),
+            color: textColor,
           ),
         ),
       ),

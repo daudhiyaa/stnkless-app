@@ -115,7 +115,7 @@ class _FormPageState extends State<FormPage> {
     }
   }
 
-  Future _selectPhoto() async {
+  Future _selectPhoto(Widget title) async {
     await showModalBottomSheet(
       context: context,
       useSafeArea: true,
@@ -127,10 +127,11 @@ class _FormPageState extends State<FormPage> {
         ),
         onClosing: () {},
         builder: (context) => SizedBox(
-          height: 150,
+          height: 200,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              title,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -267,7 +268,10 @@ class _FormPageState extends State<FormPage> {
                             ),
                           )
                         : GestureDetector(
-                            onTap: _selectPhoto,
+                            onTap: () {
+                              _selectPhoto(
+                                  cardData[index - textFieldData.length][1]);
+                            },
                             child: Card(
                               margin: const EdgeInsets.only(bottom: 25),
                               color: Colors.white,
