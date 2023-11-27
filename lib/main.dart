@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:stnkless/firebase_options.dart';
+import 'package:stnkless/screens/base.dart';
 import 'package:stnkless/screens/onboarding.dart';
 
 Future<void> main() async {
@@ -9,11 +11,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,9 @@ class MyApp extends StatelessWidget {
           titleSmall: TextStyle(fontFamily: 'Poppins'),
         ),
       ),
-      home: const OnboardingScreen(),
+      home: _auth.currentUser != null
+          ? const BaseScreen()
+          : const OnboardingScreen(),
     );
   }
 }
