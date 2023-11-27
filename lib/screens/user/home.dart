@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/constants/color.dart';
+import 'package:stnkless/screens/user/form.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,33 +37,38 @@ class _HomePageState extends State<HomePage> {
       'Sub Sub Title 4',
     ],
     [
-      'Title 4',
-      'Sub Title 4',
-      'Sub Sub Title 4',
+      'Title 5',
+      'Sub Title 5',
+      'Sub Sub Title 5',
     ],
     [
-      'Title 4',
-      'Sub Title 4',
-      'Sub Sub Title 4',
+      'Title 6',
+      'Sub Title 6',
+      'Sub Sub Title 6',
     ],
     [
-      'Title 4',
-      'Sub Title 4',
-      'Sub Sub Title 4',
+      'Title 7',
+      'Sub Title 7',
+      'Sub Sub Title 7',
     ],
     [
-      'Title 4',
-      'Sub Title 4',
-      'Sub Sub Title 4',
+      'Title 8',
+      'Sub Title 8',
+      'Sub Sub Title 8',
     ],
   ];
 
   List<List<dynamic>> filteredCardData = [];
 
+  User? user;
+  String uid = '';
+
   @override
   void initState() {
-    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    uid = user!.uid;
     filteredCardData.addAll(cardData);
+    super.initState();
   }
 
   void _filteringData(String query) {
@@ -150,7 +158,12 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: CustomButton(
                     onPressed: () {
-                      // handle onpressed
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FormPage(uid: uid),
+                        ),
+                      );
                     },
                     title: "Tambah Data",
                     elevation: 5,
