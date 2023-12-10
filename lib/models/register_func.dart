@@ -28,7 +28,7 @@ Future signUp(
       String uid = userCredential.user!.uid;
       if (mounted) {
         createUserDetails(context, mounted, uid, usn, email, password);
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const LoginPage(),

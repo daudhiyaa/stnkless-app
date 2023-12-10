@@ -69,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
               textEditingController: _email,
               icon: Icons.email,
               labelText: "Email",
+              keyboardType: TextInputType.emailAddress,
               onChanged: (value) {},
             ),
             const SizedBox(height: 10.0),

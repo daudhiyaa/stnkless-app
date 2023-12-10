@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final double fontSize;
   final Widget? suffixIcon;
   final bool obsecureText, enableSuggestion, autoCorrect;
+  final TextInputType keyboardType;
 
   const CustomTextField({
     super.key,
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
     this.obsecureText = false,
     this.enableSuggestion = true,
     this.autoCorrect = true,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -40,7 +42,9 @@ class CustomTextField extends StatelessWidget {
         obscureText: obsecureText,
         enableSuggestions: enableSuggestion,
         autocorrect: autoCorrect,
+        keyboardType: keyboardType,
         onChanged: onChanged,
+        obscuringCharacter: "*",
         style: TextStyle(
           fontFamily: 'Poppins',
           color: darkBlue,

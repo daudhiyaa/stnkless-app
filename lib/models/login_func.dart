@@ -19,7 +19,7 @@ Future login(
     // print(userCredential);
 
     if (mounted) {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const BaseScreen(),

@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
               textEditingController: _email,
               icon: Icons.email,
               labelText: "Email",
+              keyboardType: TextInputType.emailAddress,
               onChanged: (value) {},
             ),
             const SizedBox(height: 16.0),
