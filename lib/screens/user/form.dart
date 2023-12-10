@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stnkless/components/button/button.dart';
+import 'package:stnkless/components/popup_modal.dart';
 
 import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/constants/color.dart';
@@ -16,8 +17,14 @@ import 'package:stnkless/screens/user/home.dart';
 class FormPage extends StatefulWidget {
   final String uid;
   final int countData;
+  final List<Map<String, String>> listData;
 
-  const FormPage({super.key, required this.uid, required this.countData});
+  const FormPage({
+    super.key,
+    required this.uid,
+    required this.countData,
+    required this.listData,
+  });
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -25,16 +32,52 @@ class FormPage extends StatefulWidget {
 
 class _FormPageState extends State<FormPage> {
   final ImagePicker imagePicker = ImagePicker();
-  String imagePath = '';
   dynamic ref;
 
+  Map<String, String> imagePath = {
+    listDirectoryName[0]: "",
+    listDirectoryName[1]: "",
+    listDirectoryName[2]: "",
+    listDirectoryName[3]: "",
+    listDirectoryName[4]: "",
+    listDirectoryName[5]: "",
+    listDirectoryName[6]: "",
+  };
+
+  List<Map<String, String>> listData = [];
+
   Future<void> saveData() async {
+    if (textFieldData[0]["controller"].text.isEmpty ||
+        textFieldData[1]["controller"].text.isEmpty) {
+      final snackBar = customSnackBar('Nama dan Plat Nomor tidak boleh kosong');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    } else if (imagePath[listDirectoryName[0]] == "" ||
+        imagePath[listDirectoryName[1]] == "" ||
+        imagePath[listDirectoryName[2]] == "" ||
+        imagePath[listDirectoryName[3]] == "" ||
+        imagePath[listDirectoryName[4]] == "" ||
+        imagePath[listDirectoryName[5]] == "" ||
+        imagePath[listDirectoryName[6]] == "") {
+      final snackBar = customSnackBar('Semua foto harus diisi');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
+
+    listData.add({
+      'nama': textFieldData[0]["controller"].text,
+      'plat_nomor': textFieldData[1]["controller"].text,
+    });
+
     try {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
           .update(
-        {'countData': widget.countData + 1},
+        {
+          'countData': widget.countData + 1,
+          'listData': listData,
+        },
       );
 
       setState(() {
@@ -78,7 +121,7 @@ class _FormPageState extends State<FormPage> {
                           Navigator.of(context).pop();
                           _pickImage(
                             ImageSource.camera,
-                            directoryName[index],
+                            listDirectoryName[index],
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -99,7 +142,7 @@ class _FormPageState extends State<FormPage> {
                           Navigator.of(context).pop();
                           _pickImage(
                             ImageSource.gallery,
-                            directoryName[index],
+                            listDirectoryName[index],
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -144,10 +187,24 @@ class _FormPageState extends State<FormPage> {
         .child(directoryName);
     final res = await ref.putFile(File(path), metadata);
     final fileUrl = await res.ref.getDownloadURL();
+
+    setState(() {
+      imagePath[directoryName] = fileUrl;
+    });
+
+    if (mounted) {
+      showPopupModal(
+        context,
+        CupertinoIcons.checkmark_alt_circle,
+        "$directoryName Berhasil Diupload",
+      );
+    }
   }
 
   @override
   void initState() {
+    listData = widget.listData;
+    setState(() {});
     super.initState();
   }
 
@@ -194,6 +251,7 @@ class _FormPageState extends State<FormPage> {
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextField(
                               controller: textFieldData[index]["controller"],
+                              style: const TextStyle(fontFamily: 'Poppins'),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 labelText: textFieldData[index]["label"],
@@ -215,7 +273,11 @@ class _FormPageState extends State<FormPage> {
                               },
                               child: Card(
                                 margin: const EdgeInsets.only(bottom: 25),
-                                color: Colors.white,
+                                color: imagePath[listDirectoryName[
+                                            index - textFieldData.length]] ==
+                                        ""
+                                    ? Colors.blueGrey
+                                    : Colors.white,
                                 elevation: 7,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
