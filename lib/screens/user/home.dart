@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Map<String, dynamic>? userData;
   String nama = "", email = "";
   int countData = 0;
+  List<Map<String, String>> listData = [];
   dynamic ref;
   String? imageUrl;
 
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         nama = userData!['nama'];
         email = userData!['email'];
         countData = userData!['countData'];
+        listData = userData!['listData'];
       }
       setState(() {});
     } else {
@@ -167,6 +169,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => FormPage(
                             uid: uid,
                             countData: countData,
+                            listData: listData,
                           ),
                         ),
                       );

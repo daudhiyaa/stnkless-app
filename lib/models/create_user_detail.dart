@@ -14,7 +14,13 @@ Future createUserDetails(
   String password,
 ) async {
   await FirebaseFirestore.instance.collection('users').doc(uid).set(
-    {'nama': nama, 'email': email, 'password': password, 'countData': 0},
+    {
+      'nama': nama,
+      'email': email,
+      'password': password,
+      'countData': 0,
+      'listData': [],
+    },
   );
 
   final imageBytes = await rootBundle.load('assets/images/profile.jpg');
