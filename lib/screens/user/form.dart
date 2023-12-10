@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/popup_modal.dart';
-
 import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/constants/color.dart';
 import 'package:stnkless/constants/data.dart';
@@ -17,14 +17,8 @@ import 'package:stnkless/screens/user/home.dart';
 class FormPage extends StatefulWidget {
   final String uid;
   final int countData;
-  final List<Map<String, String>> listData;
 
-  const FormPage({
-    super.key,
-    required this.uid,
-    required this.countData,
-    required this.listData,
-  });
+  const FormPage({super.key, required this.uid, required this.countData});
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -44,8 +38,6 @@ class _FormPageState extends State<FormPage> {
     listDirectoryName[6]: "",
   };
 
-  List<Map<String, String>> listData = [];
-
   Future<void> saveData() async {
     if (textFieldData[0]["controller"].text.isEmpty ||
         textFieldData[1]["controller"].text.isEmpty) {
@@ -64,24 +56,20 @@ class _FormPageState extends State<FormPage> {
       return;
     }
 
-    listData.add({
+    Map tempListData = {};
+    tempListData['${widget.countData}'] = {
       'nama': textFieldData[0]["controller"].text,
       'plat_nomor': textFieldData[1]["controller"].text,
-    });
+    };
 
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.uid)
-          .update(
-        {
-          'countData': widget.countData + 1,
-          'listData': listData,
-        },
-      );
+      await FirebaseFirestore.instance.collection('users').doc(widget.uid).set({
+        'countData': widget.countData + 1,
+        'listData': tempListData,
+      }, SetOptions(merge: true));
 
       setState(() {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const HomePage(),
@@ -203,7 +191,6 @@ class _FormPageState extends State<FormPage> {
 
   @override
   void initState() {
-    listData = widget.listData;
     setState(() {});
     super.initState();
   }

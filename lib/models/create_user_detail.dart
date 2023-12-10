@@ -19,7 +19,7 @@ Future createUserDetails(
       'email': email,
       'password': password,
       'countData': 0,
-      'listData': [],
+      'listData': {},
     },
   );
 

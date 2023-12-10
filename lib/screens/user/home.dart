@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/constants/color.dart';
-import 'package:stnkless/constants/data.dart';
 import 'package:stnkless/screens/user/form.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +20,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _search = TextEditingController();
 
-  List<List<dynamic>> filteredCardData = [];
+  List<List<String>> filteredCardData = [];
 
   User? user;
   String uid = '';
   Map<String, dynamic>? userData;
   String nama = "", email = "";
   int countData = 0;
-  List<Map<String, String>> listData = [];
+  Map<String, dynamic> listData = {};
   dynamic ref;
   String? imageUrl;
 
@@ -46,6 +47,10 @@ class _HomePageState extends State<HomePage> {
         countData = userData!['countData'];
         listData = userData!['listData'];
       }
+      for (int i = 0; i < listData.length; i++) {
+        var data = listData[i.toString()];
+        filteredCardData.add([data["nama"], data["plat_nomor"]]);
+      }
       setState(() {});
     } else {
       if (mounted) {
@@ -59,7 +64,8 @@ class _HomePageState extends State<HomePage> {
     try {
       imageUrl = await ref.getDownloadURL();
     } on Exception catch (e) {
-      print(e);
+      final snackBar = customSnackBar('Error uploading image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -70,18 +76,22 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
     fetchUserData(uid);
 
-    filteredCardData.addAll(dummyCardData);
     super.initState();
   }
 
-  void _filteringData(String query) {
+  void _filteringData(String query, Map<String, dynamic> tempListData) {
     filteredCardData.clear();
     if (query.isEmpty) {
-      filteredCardData.addAll(dummyCardData);
+      for (int i = 0; i < tempListData.length; i++) {
+        var data = tempListData[i.toString()];
+        filteredCardData.add([data["nama"], data["plat_nomor"]]);
+      }
     } else {
-      for (var data in dummyCardData) {
-        if (data[0].toLowerCase().contains(query.toLowerCase())) {
-          filteredCardData.add(data);
+      for (var entry in tempListData.entries) {
+        var data = entry.value;
+        if (data["nama"].toLowerCase().contains(query.toLowerCase()) ||
+            data["plat_nomor"].toLowerCase().contains(query.toLowerCase())) {
+          filteredCardData.add([data["nama"], data["plat_nomor"]]);
         }
       }
     }
@@ -113,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                   TextField(
                     controller: _search,
                     onChanged: (query) {
-                      _filteringData(query);
+                      _filteringData(query, listData);
                     },
                     style: const TextStyle(fontFamily: 'Poppins'),
                     decoration: InputDecoration(
@@ -145,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                                   // handle ontap
                                 },
                                 child: HomeScreenCard(
-                                  filteredCardData: filteredCardData,
+                                  listData: filteredCardData,
                                   index: index,
                                 ),
                               )
@@ -169,7 +179,6 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => FormPage(
                             uid: uid,
                             countData: countData,
-                            listData: listData,
                           ),
                         ),
                       );
@@ -191,11 +200,11 @@ class _HomePageState extends State<HomePage> {
 class HomeScreenCard extends StatelessWidget {
   const HomeScreenCard({
     super.key,
-    required this.filteredCardData,
+    required this.listData,
     required this.index,
   });
 
-  final List<List> filteredCardData;
+  final List<List> listData;
   final int index;
 
   @override
@@ -216,7 +225,7 @@ class HomeScreenCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              filteredCardData[index][0],
+              listData[index][0],
               style: const TextStyle(
                 fontSize: 13,
                 fontFamily: 'Poppins',
@@ -224,15 +233,7 @@ class HomeScreenCard extends StatelessWidget {
               ),
             ),
             Text(
-              filteredCardData[index][1],
-              style: const TextStyle(
-                fontSize: 13,
-                fontFamily: 'Poppins',
-                color: Colors.white,
-              ),
-            ),
-            Text(
-              filteredCardData[index][2],
+              listData[index][1],
               style: const TextStyle(
                 fontSize: 13,
                 fontFamily: 'Poppins',
