@@ -12,7 +12,7 @@ List<Map<String, dynamic>> textFieldData = [
   },
 ];
 
-List<String> directoryName = [
+List<String> listDirectoryName = [
   "Foto Wajah",
   "Foto STNK",
   "Foto Wajah + STNK",
@@ -28,7 +28,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.redAccent,
     ),
-    Text(directoryName[0]),
+    Text(listDirectoryName[0]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -36,7 +36,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.amberAccent,
     ),
-    Text(directoryName[1]),
+    Text(listDirectoryName[1]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -44,7 +44,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.greenAccent,
     ),
-    Text(directoryName[2]),
+    Text(listDirectoryName[2]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -52,7 +52,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.blueAccent,
     ),
-    Text(directoryName[3]),
+    Text(listDirectoryName[3]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -60,7 +60,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.pink,
     ),
-    Text(directoryName[4]),
+    Text(listDirectoryName[4]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -68,7 +68,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.orangeAccent,
     ),
-    Text(directoryName[5]),
+    Text(listDirectoryName[5]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
   [
@@ -76,7 +76,7 @@ List<List<Widget>> cardData = [
       CupertinoIcons.photo,
       color: Colors.purpleAccent,
     ),
-    Text(directoryName[6]),
+    Text(listDirectoryName[6]),
     const Icon(CupertinoIcons.checkmark_alt_circle)
   ],
 ];
