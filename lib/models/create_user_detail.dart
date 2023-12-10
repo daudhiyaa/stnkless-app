@@ -14,21 +14,15 @@ Future createUserDetails(
   String password,
 ) async {
   await FirebaseFirestore.instance.collection('users').doc(uid).set(
-    {
-      'nama': nama,
-      'email': email,
-      'password': password,
-    },
+    {'nama': nama, 'email': email, 'password': password, 'countData': 0},
   );
 
   final imageBytes = await rootBundle.load('assets/images/profile.jpg');
   final metadata = storage.SettableMetadata(contentType: 'image/jpg');
 
   try {
-    final ref = storage.FirebaseStorage.instance
-        .ref()
-        .child('profile_images')
-        .child(uid);
+    final ref =
+        storage.FirebaseStorage.instance.ref().child(uid).child("profile");
     final uploadTask = ref.putData(imageBytes.buffer.asUint8List(), metadata);
     final snapshot = await uploadTask.whenComplete(() => null);
 

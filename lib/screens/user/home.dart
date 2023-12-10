@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:stnkless/components/button/button.dart';
+import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/constants/color.dart';
+import 'package:stnkless/constants/data.dart';
 import 'package:stnkless/screens/user/form.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,68 +18,66 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final TextEditingController _search = TextEditingController();
-  List<List<dynamic>> cardData = [
-    [
-      'Title 1',
-      'Sub Title 1',
-      'Sub Sub Title 1',
-    ],
-    [
-      'Title 2',
-      'Sub Title 2',
-      'Sub Sub Title 2',
-    ],
-    [
-      'Title 3',
-      'Sub Title 3',
-      'Sub Sub Title 3',
-    ],
-    [
-      'Title 4',
-      'Sub Title 4',
-      'Sub Sub Title 4',
-    ],
-    [
-      'Title 5',
-      'Sub Title 5',
-      'Sub Sub Title 5',
-    ],
-    [
-      'Title 6',
-      'Sub Title 6',
-      'Sub Sub Title 6',
-    ],
-    [
-      'Title 7',
-      'Sub Title 7',
-      'Sub Sub Title 7',
-    ],
-    [
-      'Title 8',
-      'Sub Title 8',
-      'Sub Sub Title 8',
-    ],
-  ];
 
   List<List<dynamic>> filteredCardData = [];
 
   User? user;
   String uid = '';
+  Map<String, dynamic>? userData;
+  String nama = "", email = "";
+  int countData = 0;
+  dynamic ref;
+  String? imageUrl;
+
+  Future<DocumentSnapshot> getUserDocument(String uid) async {
+    DocumentSnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return snapshot;
+  }
+
+  Future<void> fetchUserData(String uid) async {
+    DocumentSnapshot snapshot = await getUserDocument(uid);
+    if (snapshot.exists) {
+      userData = snapshot.data() as Map<String, dynamic>?;
+      if (userData != null) {
+        nama = userData!['nama'];
+        email = userData!['email'];
+        countData = userData!['countData'];
+      }
+      setState(() {});
+    } else {
+      if (mounted) {
+        final snackBar = customSnackBar('Document does not exist');
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
+  }
+
+  Future<void> getDataFromStorage() async {
+    try {
+      imageUrl = await ref.getDownloadURL();
+    } on Exception catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
     uid = user!.uid;
-    filteredCardData.addAll(cardData);
+    setState(() {});
+    fetchUserData(uid);
+
+    filteredCardData.addAll(dummyCardData);
     super.initState();
   }
 
   void _filteringData(String query) {
     filteredCardData.clear();
     if (query.isEmpty) {
-      filteredCardData.addAll(cardData);
+      filteredCardData.addAll(dummyCardData);
     } else {
-      for (var data in cardData) {
+      for (var data in dummyCardData) {
         if (data[0].toLowerCase().contains(query.toLowerCase())) {
           filteredCardData.add(data);
         }
@@ -163,7 +164,10 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FormPage(uid: uid),
+                          builder: (context) => FormPage(
+                            uid: uid,
+                            countData: countData,
+                          ),
                         ),
                       );
                     },
