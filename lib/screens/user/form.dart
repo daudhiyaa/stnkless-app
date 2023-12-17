@@ -15,10 +15,10 @@ import 'package:stnkless/constants/data.dart';
 import 'package:stnkless/screens/user/home.dart';
 
 class FormPage extends StatefulWidget {
-  final String uid;
+  final String email;
   final int countData;
 
-  const FormPage({super.key, required this.uid, required this.countData});
+  const FormPage({super.key, required this.email, required this.countData});
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -63,7 +63,10 @@ class _FormPageState extends State<FormPage> {
     };
 
     try {
-      await FirebaseFirestore.instance.collection('users').doc(widget.uid).set({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.email)
+          .set({
         'countData': widget.countData + 1,
         'listData': tempListData,
       }, SetOptions(merge: true));
@@ -77,7 +80,7 @@ class _FormPageState extends State<FormPage> {
         );
       });
     } on FirebaseException catch (e) {
-      final snackBar = customSnackBar(e.message!);
+      final snackBar = customSnackBar(e.code);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
@@ -170,7 +173,7 @@ class _FormPageState extends State<FormPage> {
     final metadata = storage.SettableMetadata(contentType: 'image/jpg');
     ref = storage.FirebaseStorage.instance
         .ref()
-        .child(widget.uid)
+        .child(widget.email)
         .child(widget.countData.toString())
         .child(directoryName);
     final res = await ref.putFile(File(path), metadata);

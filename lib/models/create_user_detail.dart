@@ -8,12 +8,11 @@ import 'package:stnkless/components/snackbar.dart';
 Future createUserDetails(
   BuildContext context,
   bool mounted,
-  String uid,
   String nama,
   String email,
   String password,
 ) async {
-  await FirebaseFirestore.instance.collection('users').doc(uid).set(
+  await FirebaseFirestore.instance.collection('users').doc(email).set(
     {
       'nama': nama,
       'email': email,
@@ -28,12 +27,10 @@ Future createUserDetails(
 
   try {
     final ref =
-        storage.FirebaseStorage.instance.ref().child(uid).child("profile");
+        storage.FirebaseStorage.instance.ref().child(email).child("profile");
     final uploadTask = ref.putData(imageBytes.buffer.asUint8List(), metadata);
     final snapshot = await uploadTask.whenComplete(() => null);
-
-    final downloadURL = await snapshot.ref.getDownloadURL();
-    // print('ini downloadURL $downloadURL');
+    await snapshot.ref.getDownloadURL();
   } catch (e) {
     final snackBar = customSnackBar('Error uploading image: $e');
     if (mounted) {

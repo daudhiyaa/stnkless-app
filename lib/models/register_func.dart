@@ -19,15 +19,13 @@ Future signUp(
 ) async {
   if (passwordConfirmed(password, confirmPassword)) {
     try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      String uid = userCredential.user!.uid;
       if (mounted) {
-        createUserDetails(context, mounted, uid, usn, email, password);
+        createUserDetails(context, mounted, usn, email, password);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -36,7 +34,7 @@ Future signUp(
         );
       }
     } on FirebaseAuthException catch (e) {
-      final snackBar = customSnackBar(e.message!);
+      final snackBar = customSnackBar(e.code);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   } else {

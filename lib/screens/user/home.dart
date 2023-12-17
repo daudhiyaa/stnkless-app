@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   List<List<String>> filteredCardData = [];
 
   User? user;
-  String uid = '';
+  String? userEmail = '';
   Map<String, dynamic>? userData;
   String nama = "", email = "";
   int countData = 0;
@@ -31,14 +31,14 @@ class _HomePageState extends State<HomePage> {
   dynamic ref;
   String? imageUrl;
 
-  Future<DocumentSnapshot> getUserDocument(String uid) async {
+  Future<DocumentSnapshot> getUserDocument(String email) async {
     DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+        await FirebaseFirestore.instance.collection('users').doc(email).get();
     return snapshot;
   }
 
-  Future<void> fetchUserData(String uid) async {
-    DocumentSnapshot snapshot = await getUserDocument(uid);
+  Future<void> fetchUserData(String email) async {
+    DocumentSnapshot snapshot = await getUserDocument(email);
     if (snapshot.exists) {
       userData = snapshot.data() as Map<String, dynamic>?;
       if (userData != null) {
@@ -72,9 +72,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
-    uid = user!.uid;
+    userEmail = user!.email;
     setState(() {});
-    fetchUserData(uid);
+    fetchUserData(userEmail!);
 
     super.initState();
   }
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => FormPage(
-                            uid: uid,
+                            email: userEmail!,
                             countData: countData,
                           ),
                         ),

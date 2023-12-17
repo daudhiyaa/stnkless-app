@@ -11,12 +11,10 @@ Future login(
   String password,
 ) async {
   try {
-    final userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    // print(userCredential);
 
     if (mounted) {
       Navigator.pushReplacement(
@@ -27,7 +25,7 @@ Future login(
       );
     }
   } on FirebaseAuthException catch (e) {
-    final snackBar = customSnackBar(e.message!);
+    final snackBar = customSnackBar(e.code);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
