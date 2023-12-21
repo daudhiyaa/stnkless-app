@@ -4,7 +4,7 @@ import 'package:stnkless/components/button/button.dart';
 import 'package:stnkless/components/button/login_with_google.dart';
 import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/components/stnkless_logo.dart';
-import 'package:stnkless/components/textfield.dart';
+import 'package:stnkless/components/textfield/textfield.dart';
 import 'package:stnkless/constants/color.dart';
 import 'package:stnkless/constants/constants.dart';
 import 'package:stnkless/models/register_func.dart';
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 TextButton(
                   onPressed: () => {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const LoginPage(),
