@@ -12,7 +12,7 @@ import 'package:stnkless/components/popup_modal.dart';
 import 'package:stnkless/components/snackbar.dart';
 import 'package:stnkless/constants/color.dart';
 import 'package:stnkless/constants/data.dart';
-import 'package:stnkless/screens/user/home.dart';
+import 'package:stnkless/screens/base.dart';
 
 class FormPage extends StatefulWidget {
   final String email;
@@ -75,7 +75,7 @@ class _FormPageState extends State<FormPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const BaseScreen(),
           ),
         );
       });

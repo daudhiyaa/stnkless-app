@@ -59,7 +59,7 @@ class OnboardingScreen extends StatelessWidget {
             CustomButton(
               title: 'Lanjutkan',
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const LoginPage(),
