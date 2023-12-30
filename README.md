@@ -1,16 +1,13 @@
-# stnkless
+# STNKLess
 
-A new Flutter project.
+Aplikasi Berbasis _Machine Learning_ Sebagai Otomatisasi Portal Parkir Guna Mengurangi Kasus Pencurian Motor
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+An application integrated with machine learning models serves as an automation tool for parking portals. By using this application, there is no longer a need to carry vehicle registration documents (`STNK`) or student ID cards (`KTM`) to enter or exit certain locations (especially ITS). With the existence of this application, it is expected that the use of paper parking tickets and the incidence of motorbike theft cases will decrease, or even be eliminated altogether.
 
-A few resources to get you started if this is your first Flutter project:
+## Note
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- You need to configure & specify your own `firebase project` to run this app
+- This app is currently available only on Android and has not yet been developed for iOS. So you need `Android Emulator` or `Android Device` to run this app.
+  > (In the future, I will strive to improve and expand the app, addressing any shortcomings that may exist)
